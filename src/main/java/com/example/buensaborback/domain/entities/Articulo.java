@@ -39,4 +39,8 @@ public abstract class Articulo {
     @Builder.Default
     protected Set<Promocion> estaEnPromociones = new HashSet<>();
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "categoria_id", nullable = false)
+    protected Categoria categoria;
+
 }

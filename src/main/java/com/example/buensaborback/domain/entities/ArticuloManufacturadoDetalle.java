@@ -1,5 +1,6 @@
 package com.example.buensaborback.domain.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,7 +16,7 @@ import lombok.*;
 public class ArticuloManufacturadoDetalle extends Base {
     private Double cantidad;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name= "articuloManufacturado_id", nullable = false)
     private ArticuloManufacturado articuloManufacturado;
 
