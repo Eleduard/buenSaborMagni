@@ -31,7 +31,7 @@ public abstract class Articulo {
     protected Set<Imagen> imagenes = new HashSet<Imagen>();
 
     @ManyToOne
-    @JoinColumn(name = "")
+    @JoinColumn(name = "unidad_medida_id", nullable = false)
     protected UnidadMedida unidadMedida;
 
     @ManyToMany(mappedBy = "articulos")

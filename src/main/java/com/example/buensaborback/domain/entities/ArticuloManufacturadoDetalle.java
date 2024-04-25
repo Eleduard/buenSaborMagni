@@ -1,6 +1,7 @@
 package com.example.buensaborback.domain.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
@@ -15,5 +16,10 @@ public class ArticuloManufacturadoDetalle extends Base {
     private Double cantidad;
     
     @ManyToOne
+    @JoinColumn(name= "articuloManufacturado_id", nullable = false)
+    private ArticuloManufacturado articuloManufacturado;
+
+    @ManyToOne
+    @JoinColumn(name = "articuloInsumo_id", nullable = false)
     private ArticuloInsumo articuloInsumo;
 }
