@@ -261,10 +261,10 @@ public class BuenSaborBackApplication {
 			sucursalRepository.save(sucursalChacras);
 			sucursalRepository.save(sucursalGodoyCruz);
 
-			/*
-			logger.info("Sucursal Chacras {}",sucursalChacras);
-			logger.info("Sucursal Godoy Cruz {}",sucursalGodoyCruz);
-			*/
+
+			logger.info("Sucursal Chacras: nombre={}, horarioApertura={}, horarioCierre={}",sucursalChacras.getNombre(), sucursalChacras.getHorarioApertura(), sucursalChacras.getHorarioCierre());
+			logger.info("Sucursal Godoy Cruz: nombre={}, horarioApertura={}, horarioCierre={}",sucursalGodoyCruz.getNombre(), sucursalGodoyCruz.getHorarioApertura(), sucursalGodoyCruz.getHorarioCierre());
+
 
 			//agregar domicilios de cliente
 			Domicilio domicilioCliente1 = Domicilio.builder().calle("Sarmiento").numero(123).cp(5507).localidad(localidad1).build();
@@ -276,16 +276,14 @@ public class BuenSaborBackApplication {
 			Usuario usuario1 = Usuario.builder().username("pepe-honguito75").auth0Id("iVBORw0KGgoAAAANSUhEUgAAAK0AAACUCAMAAADWBFkUAAABEVBMVEX").build();
 			usuarioRepository.save(usuario1);
 
+			Imagen imagenUsuario = Imagen.builder().url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsa2xSPPay4GD7E3cthBMCcvPMADEjFufUWQ&s").build();
+			imagenRepository.save(imagenUsuario);
+
 			// agregar cliente
-			Cliente cliente1 = Cliente.builder().nombre("Alejandro").email("alex@gmail.com").apellido("Lencinas").telefono("2634666666").usuario(usuario1).fechaNacimiento(LocalDate.of(1990, 12, 15)).build();
+			Cliente cliente1 = Cliente.builder().nombre("Alejandro").email("alex@gmail.com").apellido("Lencinas").telefono("2634666666").usuario(usuario1).fechaNacimiento(LocalDate.of(1990, 12, 15)).imagen(imagenUsuario).build();
 			cliente1.getDomicilios().add(domicilioCliente1);
 			cliente1.getDomicilios().add(domicilioCliente2);
 			clienteRepository.save(cliente1);
-
-			//Agregar imágen de cliente
-			Imagen imagenUsuario = Imagen.builder().url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsa2xSPPay4GD7E3cthBMCcvPMADEjFufUWQ&s").cliente(cliente1).build();
-			imagenUsuario.setCliente(cliente1);
-			imagenRepository.save(imagenUsuario);
 
 			// agregar factura
 			Factura factura = Factura.builder().fechaFacturacion(LocalDate.of(2024, 2, 13)).formaPago(FormaPago.MercadoPago).mpMerchantOrderId(1).mpPaymentId(1).mpPaymentType("mercado pago").mpPreferenceId("0001").totalVenta(2500d).build();

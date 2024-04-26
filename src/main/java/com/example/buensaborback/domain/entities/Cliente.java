@@ -25,6 +25,9 @@ public class Cliente extends Base{
     @OneToOne
     private Usuario usuario;
 
+    @OneToOne
+    private Imagen imagen;
+
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "cliente")
     @Builder.Default
@@ -39,7 +42,6 @@ public class Cliente extends Base{
     @Builder.Default
     private Set<Domicilio> domicilios = new HashSet<>();
     
-    @OneToOne
-    private Imagen imagen;
+
 
 }
