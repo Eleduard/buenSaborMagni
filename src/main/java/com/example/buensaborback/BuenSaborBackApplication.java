@@ -70,6 +70,9 @@ public class BuenSaborBackApplication {
 	private PromocionRepository promocionRepository;
 
 	@Autowired
+	private DetallePromocionRepository detallePromocionRepository;
+
+	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	@Autowired
@@ -84,6 +87,7 @@ public class BuenSaborBackApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BuenSaborBackApplication.class, args);
 		logger.info("Estoy activo en el main");
+		logger.info("Usar: http://localhost:8080/h2-console/");
 	}
 
 
@@ -163,13 +167,33 @@ public class BuenSaborBackApplication {
 			articuloInsumoRepository.save(queso);
 			articuloInsumoRepository.save(tomate);
 
-			// Crear Promocion:
-			Promocion promocion1 = Promocion.builder().denominacion("Promo XL").build();
-			Promocion promocion2 = Promocion.builder().denominacion("Promo L").build();
+			// Crear Promociones:
+			Promocion promocion1 = Promocion.builder().denominacion("Promo XL")
+					.fechaDesde(LocalDate.of(2024,1,1))
+					.fechaHasta(LocalDate.of(2024,12,30))
+					.horaDesde(LocalTime.of(0,0))
+					.horaHasta(LocalTime.of(23,59))
+					.descripcionDescuento("Pizza completa + Happy Hour")
+					.precioPromocional(200d)
+					.tipoPromocion(TipoPromocion.Promocion)
+					.build();
+			Promocion promocion2 = Promocion.builder().denominacion("BonoPromo")
+					.fechaDesde(LocalDate.of(2024,1,1))
+					.fechaHasta(LocalDate.of(2024,12,30))
+					.horaDesde(LocalTime.of(0,0))
+					.horaHasta(LocalTime.of(23,59))
+					.descripcionDescuento("2 Lomito + 1 Cerveza")
+					.precioPromocional(400d)
+					.tipoPromocion(TipoPromocion.Promocion)
+					.build();
 			promocionRepository.save(promocion1);
 			promocionRepository.save(promocion2);
 
-			// crear fotos para cada insumo
+			// Crear DetallePromocion:
+			DetallePromocion detallePromocion1 = DetallePromocion.builder().articulo(cocaCola).cantidadArticulos(2).promocion(promocion1).build();
+			detallePromocionRepository.save(detallePromocion1);
+
+			// Crear fotos para cada insumo
 			Imagen imagenCoca = Imagen.builder().url("https://m.media-amazon.com/images/I/51v8nyxSOYL._SL1500_.jpg").articulo(cocaCola).promocion(promocion1).build();
 			Imagen imagenHarina = Imagen.builder().url("https://mandolina.co/wp-content/uploads/2023/03/648366622-1024x683.jpg").articulo(harina).promocion(promocion1).build();
 			Imagen imagenQueso = Imagen.builder().url("https://superdepaso.com.ar/wp-content/uploads/2021/06/SANTAROSA-PATEGRAS-04.jpg").articulo(queso).promocion(promocion1).build();
@@ -239,8 +263,7 @@ public class BuenSaborBackApplication {
 					.precioPromocional(180d)
 					.tipoPromocion(TipoPromocion.Promocion)
 					.build();
-			promocionDiaEnamorados.getArticulos().add(cocaCola);
-			promocionDiaEnamorados.getArticulos().add(pizzaNapolitana);
+
 			promocionRepository.save(promocionDiaEnamorados);
 
 			Imagen imagenPromocionEnamorados = Imagen.builder().url("https://www.bbva.com/wp-content/uploads/2021/02/san-valentin-14-febrero-corazon-amor-bbva-recurso-1920x1280-min.jpg").articulo(pizzaNapolitana).promocion(promocionDiaEnamorados).build();
@@ -250,7 +273,7 @@ public class BuenSaborBackApplication {
 
 			promocionRepository.save(promocionDiaEnamorados);
 
-			//Agregar categorias y promociones a sucursales
+			// Agregar categorias y promociones a sucursales
 			sucursalChacras.getCategorias().add(categoriaBebidas);
 			sucursalChacras.getCategorias().add(categoriaPizzas);
 			sucursalChacras.getPromociones().add(promocionDiaEnamorados);
@@ -266,34 +289,29 @@ public class BuenSaborBackApplication {
 			logger.info("Sucursal Godoy Cruz: nombre={}, horarioApertura={}, horarioCierre={}",sucursalGodoyCruz.getNombre(), sucursalGodoyCruz.getHorarioApertura(), sucursalGodoyCruz.getHorarioCierre());
 
 
-			//agregar domicilios de cliente
+			// Agregar domicilios de cliente
 			Domicilio domicilioCliente1 = Domicilio.builder().calle("Sarmiento").numero(123).cp(5507).localidad(localidad1).build();
 			Domicilio domicilioCliente2 = Domicilio.builder().calle("San martin").numero(412).cp(5501).localidad(localidad2).build();
 			domicilioRepository.save(domicilioCliente1);
 			domicilioRepository.save(domicilioCliente2);
 
-			// agregar usuario
+			// Agregar usuario
 			Usuario usuario1 = Usuario.builder().username("pepe-honguito75").auth0Id("iVBORw0KGgoAAAANSUhEUgAAAK0AAACUCAMAAADWBFkUAAABEVBMVEX").build();
 			usuarioRepository.save(usuario1);
 
 			Imagen imagenUsuario = Imagen.builder().url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsa2xSPPay4GD7E3cthBMCcvPMADEjFufUWQ&s").build();
 			imagenRepository.save(imagenUsuario);
 
-			// agregar cliente
-			Cliente cliente1 = Cliente.builder().nombre("Alejandro").email("alex@gmail.com").apellido("Lencinas").telefono("2634666666").usuario(usuario1).fechaNacimiento(LocalDate.of(1990, 12, 15)).imagen(imagenUsuario).build();
+			// Agregar cliente
+			Cliente cliente1 = Cliente.builder().nombre("Carlos").apellido("Rodriguez").telefono("2615666666").fechaNacimiento(LocalDate.of(1920, 5, 13)).usuario(usuario1).email("c.rodriguez@gmail.com").imagen(imagenUsuario).build();
 			cliente1.getDomicilios().add(domicilioCliente1);
 			cliente1.getDomicilios().add(domicilioCliente2);
 			clienteRepository.save(cliente1);
 
-			// agregar factura
-			Factura factura = Factura.builder().fechaFacturacion(LocalDate.of(2024, 2, 13)).formaPago(FormaPago.MercadoPago).mpMerchantOrderId(1).mpPaymentId(1).mpPaymentType("mercado pago").mpPreferenceId("0001").totalVenta(2500d).build();
-			facturaRepository.save(factura);
-
-			// agregar pedido
+			// Agregar pedido
 			Pedido pedido = Pedido.builder()
 					.domicilio(domicilioCliente1)
 					.estado(Estado.Entregado)
-					.factura(factura)
 					.formaPago(FormaPago.MercadoPago)
 					.fechaPedido(LocalDate.of(2024, 4, 18))
 					.horaEstimadaFinalizacion(LocalTime.of(12, 30))
@@ -305,9 +323,13 @@ public class BuenSaborBackApplication {
 					.build();
 			pedidoRepository.save(pedido);
 
+			// Agregar factura
+			Factura factura = Factura.builder().fechaFacturacion(LocalDate.of(2024, 2, 13)).formaPago(FormaPago.MercadoPago).mpMerchantOrderId(1).mpPaymentId(1).mpPaymentType("mercado pago").mpPreferenceId("0001").totalVenta(2500d).pedido(pedido).build();
+			facturaRepository.save(factura);
+
 			cliente1.getPedidos().add(pedido);
 
-			// agregar detalle pedido
+			// Agregar detallepedido
 			DetallePedido detallePedido1 = DetallePedido.builder().articulo(pizzaMuzarella).cantidad(1).subTotal(130d).pedido(pedido).build();
 			DetallePedido detallePedido2 = DetallePedido.builder().articulo(cocaCola).cantidad(1).subTotal(70d).pedido(pedido).build();
 			detallePedidoRepository.save(detallePedido1);

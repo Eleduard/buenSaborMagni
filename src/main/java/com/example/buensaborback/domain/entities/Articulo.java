@@ -33,11 +33,6 @@ public abstract class Articulo {
     @JoinColumn(name = "unidad_medida_id", nullable = false)
     protected UnidadMedida unidadMedida;
 
-    @ManyToMany(mappedBy = "articulos")
-    //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
-    @Builder.Default
-    protected Set<Promocion> estaEnPromociones = new HashSet<>();
-
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
     protected Categoria categoria;
@@ -45,5 +40,9 @@ public abstract class Articulo {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "articulo")
     @Builder.Default
     private Set<DetallePedido> detallePedidos = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "articulo")
+    @Builder.Default
+    private Set<DetallePromocion> detallesPromocion = new HashSet<>();
 
 }
