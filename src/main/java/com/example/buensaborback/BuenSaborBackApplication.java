@@ -261,6 +261,8 @@ public class BuenSaborBackApplication {
 			sucursalRepository.save(sucursalChacras);
 			sucursalRepository.save(sucursalGodoyCruz);
 
+
+			// REVISAR!!!!
 			/*
 			logger.info("Sucursal Chacras {}",sucursalChacras);
 			logger.info("Sucursal Godoy Cruz {}",sucursalGodoyCruz);
