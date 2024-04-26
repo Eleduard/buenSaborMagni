@@ -129,9 +129,6 @@ public class BuenSaborBackApplication {
 			empresaBrown.getSucursales().add(sucursalChacras);
 			empresaBrown.getSucursales().add(sucursalGodoyCruz);
 
-
-
-
 			// Crear Unidades de medida
 			UnidadMedida unidadMedidaLitros = UnidadMedida.builder().denominacion("Litros").build();
 			UnidadMedida unidadMedidaGramos = UnidadMedida.builder().denominacion("Gramos").build();
@@ -141,8 +138,6 @@ public class BuenSaborBackApplication {
 			unidadMedidaRepository.save(unidadMedidaGramos);
 			unidadMedidaRepository.save(unidadMedidaCantidad);
 			unidadMedidaRepository.save(unidadMedidaPorciones);
-
-
 
 			// Crear Categorías de productos y subCategorías de los mismos
 			Categoria categoriaBebidas = Categoria.builder().denominacion("Bebidas").build();
@@ -168,18 +163,19 @@ public class BuenSaborBackApplication {
 			articuloInsumoRepository.save(queso);
 			articuloInsumoRepository.save(tomate);
 
-			// PARA ARRIBA TODO CORRE
+			// Crear Promocion:
 			Promocion promocion1 = Promocion.builder().denominacion("Promo XL").build();
-
-
+			Promocion promocion2 = Promocion.builder().denominacion("Promo L").build();
+			promocionRepository.save(promocion1);
+			promocionRepository.save(promocion2);
 
 			// crear fotos para cada insumo
 			Imagen imagenCoca = Imagen.builder().url("https://m.media-amazon.com/images/I/51v8nyxSOYL._SL1500_.jpg").articulo(cocaCola).promocion(promocion1).build();
-			Imagen imagenHarina = Imagen.builder().url("https://mandolina.co/wp-content/uploads/2023/03/648366622-1024x683.jpg").articulo(harina).build();
-			Imagen imagenQueso = Imagen.builder().url("https://superdepaso.com.ar/wp-content/uploads/2021/06/SANTAROSA-PATEGRAS-04.jpg").articulo(queso).build();
-			Imagen imagenTomate = Imagen.builder().url("https://thefoodtech.com/wp-content/uploads/2020/06/Componentes-de-calidad-en-el-tomate-828x548.jpg").articulo(tomate).build();
+			Imagen imagenHarina = Imagen.builder().url("https://mandolina.co/wp-content/uploads/2023/03/648366622-1024x683.jpg").articulo(harina).promocion(promocion1).build();
+			Imagen imagenQueso = Imagen.builder().url("https://superdepaso.com.ar/wp-content/uploads/2021/06/SANTAROSA-PATEGRAS-04.jpg").articulo(queso).promocion(promocion1).build();
+			Imagen imagenTomate = Imagen.builder().url("https://thefoodtech.com/wp-content/uploads/2020/06/Componentes-de-calidad-en-el-tomate-828x548.jpg").articulo(tomate).promocion(promocion1).build();
 
-			imagenRepository.save(imagenCoca); // ACA SE ROMPE
+			imagenRepository.save(imagenCoca);
 			imagenRepository.save(imagenHarina);
 			imagenRepository.save(imagenQueso);
 			imagenRepository.save(imagenTomate);
@@ -189,14 +185,15 @@ public class BuenSaborBackApplication {
 			queso.getImagenes().add(imagenQueso);
 			tomate.getImagenes().add(imagenTomate);
 
-
 			// Crear Articulos Manufacturados
-			ArticuloManufacturado pizzaMuzarella = ArticuloManufacturado.builder().denominacion("Pizza Muzarella").descripcion("Una pizza clasica").unidadMedida(unidadMedidaPorciones).precioVenta(130.0).tiempoEstimadoMinutos(15).preparacion("Esto se prepara asi").build();
-			ArticuloManufacturado pizzaNapolitana = ArticuloManufacturado.builder().denominacion("Pizza Napolitana").descripcion("Una pizza clasica con tomate").unidadMedida(unidadMedidaPorciones).precioVenta(150.0).tiempoEstimadoMinutos(15).preparacion("Esto se prepara asi").build();
+			ArticuloManufacturado pizzaMuzarella = ArticuloManufacturado.builder().denominacion("Pizza Muzarella").descripcion("Una pizza clasica").unidadMedida(unidadMedidaPorciones).precioVenta(130.0).tiempoEstimadoMinutos(15).preparacion("Esto se prepara asi").categoria(categoriaPizzas).build();
+			ArticuloManufacturado pizzaNapolitana = ArticuloManufacturado.builder().denominacion("Pizza Napolitana").descripcion("Una pizza clasica con tomate").unidadMedida(unidadMedidaPorciones).precioVenta(150.0).tiempoEstimadoMinutos(15).preparacion("Esto se prepara asi").categoria(categoriaPizzas).build();
+			articuloManufacturadoRepository.save(pizzaMuzarella);
+			articuloManufacturadoRepository.save(pizzaNapolitana);
 
 			// Crear fotos para los artículos manufacturados
-			Imagen imagenPizzaMuzarella = Imagen.builder().url("https://storage.googleapis.com/fitia-api-bucket/media/images/recipe_images/1002846.jpg").build();
-			Imagen imagenPizzaNapolitana = Imagen.builder().url("https://assets.elgourmet.com/wp-content/uploads/2023/03/8metlvp345_portada-pizza-1024x686.jpg.webp").build();
+			Imagen imagenPizzaMuzarella = Imagen.builder().url("https://storage.googleapis.com/fitia-api-bucket/media/images/recipe_images/1002846.jpg").articulo(pizzaMuzarella).promocion(promocion2).build();
+			Imagen imagenPizzaNapolitana = Imagen.builder().url("https://assets.elgourmet.com/wp-content/uploads/2023/03/8metlvp345_portada-pizza-1024x686.jpg.webp").articulo(pizzaNapolitana).promocion(promocion2).build();
 			imagenRepository.save(imagenPizzaMuzarella);
 			imagenRepository.save(imagenPizzaNapolitana);
 
@@ -204,11 +201,11 @@ public class BuenSaborBackApplication {
 			pizzaNapolitana.getImagenes().add(imagenPizzaNapolitana);
 
 			// Establcer las relaciones entre estos objetos.
-			ArticuloManufacturadoDetalle detalleHarinaPizzaMuzarella = ArticuloManufacturadoDetalle.builder().cantidad(10d).articuloInsumo(harina).build();
-			ArticuloManufacturadoDetalle detalleQuesoPizzaMuzarella = ArticuloManufacturadoDetalle.builder().cantidad(20d).articuloInsumo(queso).build();
-			ArticuloManufacturadoDetalle detalleHarinaPizzaNapolatina = ArticuloManufacturadoDetalle.builder().cantidad(30d).articuloInsumo(harina).build();
-			ArticuloManufacturadoDetalle detalleQuesoPizzaNapolatina = ArticuloManufacturadoDetalle.builder().cantidad(10d).articuloInsumo(queso).build();
-			ArticuloManufacturadoDetalle detalleTomatePizzaNapolatina = ArticuloManufacturadoDetalle.builder().cantidad(20d).articuloInsumo(tomate).build();
+			ArticuloManufacturadoDetalle detalleHarinaPizzaMuzarella = ArticuloManufacturadoDetalle.builder().cantidad(10d).articuloInsumo(harina).articuloManufacturado(pizzaMuzarella).build();
+			ArticuloManufacturadoDetalle detalleQuesoPizzaMuzarella = ArticuloManufacturadoDetalle.builder().cantidad(20d).articuloInsumo(queso).articuloManufacturado(pizzaMuzarella).build();
+			ArticuloManufacturadoDetalle detalleHarinaPizzaNapolatina = ArticuloManufacturadoDetalle.builder().cantidad(30d).articuloInsumo(harina).articuloManufacturado(pizzaNapolitana).build();
+			ArticuloManufacturadoDetalle detalleQuesoPizzaNapolatina = ArticuloManufacturadoDetalle.builder().cantidad(10d).articuloInsumo(queso).articuloManufacturado(pizzaNapolitana).build();
+			ArticuloManufacturadoDetalle detalleTomatePizzaNapolatina = ArticuloManufacturadoDetalle.builder().cantidad(20d).articuloInsumo(tomate).articuloManufacturado(pizzaNapolitana).build();
 			articuloManufacturadoDetalleRepository.save(detalleHarinaPizzaMuzarella);
 			articuloManufacturadoDetalleRepository.save(detalleQuesoPizzaMuzarella);
 			articuloManufacturadoDetalleRepository.save(detalleHarinaPizzaNapolatina);
@@ -219,11 +216,6 @@ public class BuenSaborBackApplication {
 			pizzaNapolitana.getArticuloManufacturadoDetalles().add(detalleHarinaPizzaNapolatina);
 			pizzaNapolitana.getArticuloManufacturadoDetalles().add(detalleQuesoPizzaNapolatina);
 			pizzaNapolitana.getArticuloManufacturadoDetalles().add(detalleTomatePizzaNapolatina);
-			articuloManufacturadoRepository.save(pizzaMuzarella);
-			articuloManufacturadoRepository.save(pizzaNapolitana);
-
-
-
 
 			// Establecer relaciones de las categorias
 			categoriaInsumos.getArticulos().add(harina);
@@ -251,7 +243,7 @@ public class BuenSaborBackApplication {
 			promocionDiaEnamorados.getArticulos().add(pizzaNapolitana);
 			promocionRepository.save(promocionDiaEnamorados);
 
-			Imagen imagenPromocionEnamorados = Imagen.builder().url("https://www.bbva.com/wp-content/uploads/2021/02/san-valentin-14-febrero-corazon-amor-bbva-recurso-1920x1280-min.jpg").build();
+			Imagen imagenPromocionEnamorados = Imagen.builder().url("https://www.bbva.com/wp-content/uploads/2021/02/san-valentin-14-febrero-corazon-amor-bbva-recurso-1920x1280-min.jpg").articulo(pizzaNapolitana).promocion(promocionDiaEnamorados).build();
 			imagenRepository.save(imagenPromocionEnamorados);
 
 			promocionDiaEnamorados.getImagenes().add(imagenPromocionEnamorados);
@@ -269,17 +261,10 @@ public class BuenSaborBackApplication {
 			sucursalRepository.save(sucursalChacras);
 			sucursalRepository.save(sucursalGodoyCruz);
 
+			/*
 			logger.info("Sucursal Chacras {}",sucursalChacras);
 			logger.info("Sucursal Godoy Cruz {}",sucursalGodoyCruz);
-
-
-			// agregar usuario
-			Usuario usuario1 = Usuario.builder().username("pepe-honguito75").auth0Id("iVBORw0KGgoAAAANSUhEUgAAAK0AAACUCAMAAADWBFkUAAABEVBMVEX").build();
-			usuarioRepository.save(usuario1);
-
-			//Agregar imágen de cliente
-			Imagen imagenUsuario = Imagen.builder().url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsa2xSPPay4GD7E3cthBMCcvPMADEjFufUWQ&s").build();
-			imagenRepository.save(imagenUsuario);
+			*/
 
 			//agregar domicilios de cliente
 			Domicilio domicilioCliente1 = Domicilio.builder().calle("Sarmiento").numero(123).cp(5507).localidad(localidad1).build();
@@ -287,13 +272,24 @@ public class BuenSaborBackApplication {
 			domicilioRepository.save(domicilioCliente1);
 			domicilioRepository.save(domicilioCliente2);
 
+			// agregar usuario
+			Usuario usuario1 = Usuario.builder().username("pepe-honguito75").auth0Id("iVBORw0KGgoAAAANSUhEUgAAAK0AAACUCAMAAADWBFkUAAABEVBMVEX").build();
+			usuarioRepository.save(usuario1);
+
+			// agregar cliente
+			Cliente cliente1 = Cliente.builder().nombre("Alejandro").email("alex@gmail.com").apellido("Lencinas").telefono("2634666666").usuario(usuario1).fechaNacimiento(LocalDate.of(1990, 12, 15)).build();
+			cliente1.getDomicilios().add(domicilioCliente1);
+			cliente1.getDomicilios().add(domicilioCliente2);
+			clienteRepository.save(cliente1);
+
+			//Agregar imágen de cliente
+			Imagen imagenUsuario = Imagen.builder().url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsa2xSPPay4GD7E3cthBMCcvPMADEjFufUWQ&s").cliente(cliente1).build();
+			imagenUsuario.setCliente(cliente1);
+			imagenRepository.save(imagenUsuario);
+
 			// agregar factura
 			Factura factura = Factura.builder().fechaFacturacion(LocalDate.of(2024, 2, 13)).formaPago(FormaPago.MercadoPago).mpMerchantOrderId(1).mpPaymentId(1).mpPaymentType("mercado pago").mpPreferenceId("0001").totalVenta(2500d).build();
 			facturaRepository.save(factura);
-
-			// agregar detalle pedido
-			DetallePedido detallePedido1 = DetallePedido.builder().articulo(pizzaMuzarella).cantidad(1).subTotal(130d).build();
-			DetallePedido detallePedido2 = DetallePedido.builder().articulo(cocaCola).cantidad(1).subTotal(70d).build();
 
 			// agregar pedido
 			Pedido pedido = Pedido.builder()
@@ -307,24 +303,22 @@ public class BuenSaborBackApplication {
 					.tipoEnvio(TipoEnvio.Delivery)
 					.total(200d)
 					.totalCosto(180d)
+					.cliente(cliente1)
 					.build();
-			
-			pedido.getDetallePedidos().add(detallePedido1);
-			pedido.getDetallePedidos().add(detallePedido2);
 			pedidoRepository.save(pedido);
 
-			// agregar cliente
-			Cliente cliente1 = Cliente.builder().nombre("Alejandro").email("alex@gmail.com").apellido("Lencinas").imagen(imagenUsuario).telefono("2634666666").usuario(usuario1).fechaNacimiento(LocalDate.of(1990, 12, 15)).build();
-			cliente1.getDomicilios().add(domicilioCliente1);
-			cliente1.getDomicilios().add(domicilioCliente2);
 			cliente1.getPedidos().add(pedido);
-			clienteRepository.save(cliente1);
 
+			// agregar detalle pedido
+			DetallePedido detallePedido1 = DetallePedido.builder().articulo(pizzaMuzarella).cantidad(1).subTotal(130d).pedido(pedido).build();
+			DetallePedido detallePedido2 = DetallePedido.builder().articulo(cocaCola).cantidad(1).subTotal(70d).pedido(pedido).build();
+			detallePedidoRepository.save(detallePedido1);
+			detallePedidoRepository.save(detallePedido2);
 
-
+			pedido.getDetallePedidos().add(detallePedido1);
+			pedido.getDetallePedidos().add(detallePedido2);
 
 		};
 	}
-
 }
 
