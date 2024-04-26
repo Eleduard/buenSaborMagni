@@ -1,3 +1,42 @@
+/*package com.example.buensaborback.domain.entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+@Builder
+public class Categoria extends Base{
+
+    private String denominacion;
+
+    @ManyToMany(mappedBy = "categorias")
+    @Builder.Default
+    private Set<Sucursal> sucursales = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "categoria")
+    @Builder.Default
+    private Set<Articulo> articulos = new HashSet<>();
+
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "categoria")
+    @Builder.Default
+    private Set<Categoria> subCategorias = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
+}
+*/
 package com.example.buensaborback.domain.entities;
 
 import jakarta.persistence.*;
@@ -24,15 +63,15 @@ public class Categoria extends Base{
     @Builder.Default
     private Set<Sucursal> sucursales = new HashSet<>();
 
-    /*@OneToMany
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "categoria")
     //SE AGREGA EL JOIN COLUMN PARA QUE JPA NO CREE LA TABLA INTERMEDIA EN UNA RELACION ONE TO MANY
     //DE ESTA MANERA PONE EL FOREIGN KEY 'categoria_id' EN LA TABLA DE LOS MANY
-    @JoinColumn(name = "categoria_id")
+    //@JoinColumn(name = "categoria_id")
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
-    private Set<Articulo> articulos = new HashSet<>();*/
+    private Set<Articulo> articulos = new HashSet<>();
 
-    @OneToMany  //ver si no se puede hacer al revés
+    @OneToMany
     //SE AGREGA EL JOIN COLUMN PARA QUE JPA NO CREE LA TABLA INTERMEDIA EN UNA RELACION ONE TO MANY
     //DE ESTA MANERA PONE EL FOREIGN KEY 'categoria_id' EN LA TABLA DE LOS MANY
     @JoinColumn(name = "categoria_id")

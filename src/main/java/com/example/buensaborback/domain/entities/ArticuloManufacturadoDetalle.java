@@ -14,13 +14,16 @@ import lombok.*;
 @ToString
 @Builder
 public class ArticuloManufacturadoDetalle extends Base {
+
     private Double cantidad;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name= "articuloManufacturado_id", nullable = false)
     private ArticuloManufacturado articuloManufacturado;
+
 
     @ManyToOne
     @JoinColumn(name = "articuloInsumo_id", nullable = false)
     private ArticuloInsumo articuloInsumo;
+
 }

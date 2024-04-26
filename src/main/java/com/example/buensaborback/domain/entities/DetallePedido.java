@@ -17,6 +17,7 @@ public class DetallePedido extends Base{
     private Double subTotal;
 
     @ManyToOne
+    @JoinColumn(name = "articulo_id", nullable = false)
     private Articulo articulo;
 
     @ManyToOne

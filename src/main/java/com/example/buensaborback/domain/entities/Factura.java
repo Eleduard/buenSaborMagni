@@ -4,6 +4,7 @@ import com.example.buensaborback.domain.entities.enums.FormaPago;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -28,6 +29,10 @@ public class Factura extends Base{
     private String mpPaymentType;
     private FormaPago formaPago;
     private Double totalVenta;
+
+    @OneToOne
+    private Pedido pedido;
+
 
 
 }

@@ -115,19 +115,22 @@ public class BuenSaborBackApplication {
 			// Crear 2 sucursales para esa empresa
 			// crear los Domicilios para esas sucursales
 			Empresa empresaBrown = Empresa.builder().nombre("Lo de Brown").cuil(30503167).razonSocial("Venta de Alimentos").build();
-			Sucursal sucursalChacras = Sucursal.builder().nombre("En chacras").horarioApertura(LocalTime.of(17,0)).horarioCierre(LocalTime.of(23,0)).build();
-			Sucursal sucursalGodoyCruz = Sucursal.builder().nombre("En godoy cruz").horarioApertura(LocalTime.of(16,0)).horarioCierre(LocalTime.of(23,30)).build();
+			empresaRepository.save(empresaBrown);
+			Sucursal sucursalChacras = Sucursal.builder().nombre("En chacras").horarioApertura(LocalTime.of(17,0)).horarioCierre(LocalTime.of(23,0)).empresa(empresaBrown).build();
+			Sucursal sucursalGodoyCruz = Sucursal.builder().nombre("En godoy cruz").horarioApertura(LocalTime.of(16,0)).horarioCierre(LocalTime.of(23,30)).empresa(empresaBrown).build();
+			sucursalRepository.save(sucursalChacras);
+			sucursalRepository.save(sucursalGodoyCruz);
 			Domicilio domicilioViamonte = Domicilio.builder().cp(5509).calle("Viamonte").numero(500).localidad(localidad1).build();
 			Domicilio domicilioSanMartin = Domicilio.builder().cp(5511).calle("San Martin").numero(789).localidad(localidad2).build();
+			domicilioRepository.save(domicilioViamonte);
+			domicilioRepository.save(domicilioSanMartin);
 			sucursalChacras.setDomicilio(domicilioViamonte);
 			sucursalGodoyCruz.setDomicilio(domicilioSanMartin);
 			empresaBrown.getSucursales().add(sucursalChacras);
 			empresaBrown.getSucursales().add(sucursalGodoyCruz);
-			domicilioRepository.save(domicilioViamonte);
-			domicilioRepository.save(domicilioSanMartin);
-			sucursalRepository.save(sucursalChacras);
-			sucursalRepository.save(sucursalGodoyCruz);
-			empresaRepository.save(empresaBrown);
+
+
+
 
 			// Crear Unidades de medida
 			UnidadMedida unidadMedidaLitros = UnidadMedida.builder().denominacion("Litros").build();
@@ -139,33 +142,44 @@ public class BuenSaborBackApplication {
 			unidadMedidaRepository.save(unidadMedidaCantidad);
 			unidadMedidaRepository.save(unidadMedidaPorciones);
 
+
+
 			// Crear Categorías de productos y subCategorías de los mismos
 			Categoria categoriaBebidas = Categoria.builder().denominacion("Bebidas").build();
-			categoriaRepository.save(categoriaBebidas);
-			Categoria categoriaGaseosas = Categoria.builder().denominacion("Gaseosas").build();
-			categoriaRepository.save(categoriaGaseosas);
-			Categoria categoriaTragos = Categoria.builder().denominacion("Tragos").build();
-			categoriaRepository.save(categoriaTragos);
 			Categoria categoriaPizzas = Categoria.builder().denominacion("Pizzas").build();
-			categoriaRepository.save(categoriaPizzas);
 			Categoria categoriaInsumos = Categoria.builder().denominacion("Insumos").build();
+			Categoria categoriaGaseosas = Categoria.builder().denominacion("Gaseosas").build();
+			Categoria categoriaTragos = Categoria.builder().denominacion("Tragos").build();
+			categoriaRepository.save(categoriaBebidas);
+			categoriaRepository.save(categoriaPizzas);
 			categoriaRepository.save(categoriaInsumos);
+			categoriaRepository.save(categoriaGaseosas);
+			categoriaRepository.save(categoriaTragos);
 			categoriaBebidas.getSubCategorias().add(categoriaGaseosas);
 			categoriaBebidas.getSubCategorias().add(categoriaTragos);
-			categoriaRepository.save(categoriaBebidas);
 
 			// Crear Insumos , coca cola , harina , etc
-			ArticuloInsumo cocaCola = ArticuloInsumo.builder().denominacion("Coca cola").unidadMedida(unidadMedidaLitros).esParaElaborar(false).stockActual(5).stockMaximo(50).precioCompra(50.0).precioVenta(70.0).build();
-			ArticuloInsumo harina = ArticuloInsumo.builder().denominacion("Harina").unidadMedida(unidadMedidaGramos).esParaElaborar(true).stockActual(4).stockMaximo(40).precioCompra(40.0).precioVenta(60.5).build();
-			ArticuloInsumo queso = ArticuloInsumo.builder().denominacion("Queso").unidadMedida(unidadMedidaGramos).esParaElaborar(true).stockActual(20).stockMaximo(50).precioCompra(23.6).precioVenta(66.6).build();
-			ArticuloInsumo tomate = ArticuloInsumo.builder().denominacion("Tomate").unidadMedida(unidadMedidaCantidad).esParaElaborar(true).stockActual(20).stockMaximo(50).precioCompra(23.6).precioVenta(66.6).build();
+			ArticuloInsumo cocaCola = ArticuloInsumo.builder().denominacion("Coca cola").unidadMedida(unidadMedidaLitros).esParaElaborar(false).stockActual(5).stockMaximo(50).precioCompra(50.0).precioVenta(70.0).categoria(categoriaGaseosas).build();
+			ArticuloInsumo harina = ArticuloInsumo.builder().denominacion("Harina").unidadMedida(unidadMedidaGramos).esParaElaborar(true).stockActual(4).stockMaximo(40).precioCompra(40.0).precioVenta(60.5).categoria(categoriaInsumos).build();
+			ArticuloInsumo queso = ArticuloInsumo.builder().denominacion("Queso").unidadMedida(unidadMedidaGramos).esParaElaborar(true).stockActual(20).stockMaximo(50).precioCompra(23.6).precioVenta(66.6).categoria(categoriaInsumos).build();
+			ArticuloInsumo tomate = ArticuloInsumo.builder().denominacion("Tomate").unidadMedida(unidadMedidaCantidad).esParaElaborar(true).stockActual(20).stockMaximo(50).precioCompra(23.6).precioVenta(66.6).categoria(categoriaInsumos).build();
+			articuloInsumoRepository.save(cocaCola);
+			articuloInsumoRepository.save(harina);
+			articuloInsumoRepository.save(queso);
+			articuloInsumoRepository.save(tomate);
+
+			// PARA ARRIBA TODO CORRE
+			Promocion promocion1 = Promocion.builder().denominacion("Promo XL").build();
+
+
 
 			// crear fotos para cada insumo
-			Imagen imagenCoca = Imagen.builder().url("https://m.media-amazon.com/images/I/51v8nyxSOYL._SL1500_.jpg").build();
-			Imagen imagenHarina = Imagen.builder().url("https://mandolina.co/wp-content/uploads/2023/03/648366622-1024x683.jpg").build();
-			Imagen imagenQueso = Imagen.builder().url("https://superdepaso.com.ar/wp-content/uploads/2021/06/SANTAROSA-PATEGRAS-04.jpg").build();
-			Imagen imagenTomate = Imagen.builder().url("https://thefoodtech.com/wp-content/uploads/2020/06/Componentes-de-calidad-en-el-tomate-828x548.jpg").build();
-			imagenRepository.save(imagenCoca);
+			Imagen imagenCoca = Imagen.builder().url("https://m.media-amazon.com/images/I/51v8nyxSOYL._SL1500_.jpg").articulo(cocaCola).promocion(promocion1).build();
+			Imagen imagenHarina = Imagen.builder().url("https://mandolina.co/wp-content/uploads/2023/03/648366622-1024x683.jpg").articulo(harina).build();
+			Imagen imagenQueso = Imagen.builder().url("https://superdepaso.com.ar/wp-content/uploads/2021/06/SANTAROSA-PATEGRAS-04.jpg").articulo(queso).build();
+			Imagen imagenTomate = Imagen.builder().url("https://thefoodtech.com/wp-content/uploads/2020/06/Componentes-de-calidad-en-el-tomate-828x548.jpg").articulo(tomate).build();
+
+			imagenRepository.save(imagenCoca); // ACA SE ROMPE
 			imagenRepository.save(imagenHarina);
 			imagenRepository.save(imagenQueso);
 			imagenRepository.save(imagenTomate);
@@ -174,10 +188,7 @@ public class BuenSaborBackApplication {
 			harina.getImagenes().add(imagenHarina);
 			queso.getImagenes().add(imagenQueso);
 			tomate.getImagenes().add(imagenTomate);
-			articuloInsumoRepository.save(cocaCola);
-			articuloInsumoRepository.save(harina);
-			articuloInsumoRepository.save(queso);
-			articuloInsumoRepository.save(tomate);
+
 
 			// Crear Articulos Manufacturados
 			ArticuloManufacturado pizzaMuzarella = ArticuloManufacturado.builder().denominacion("Pizza Muzarella").descripcion("Una pizza clasica").unidadMedida(unidadMedidaPorciones).precioVenta(130.0).tiempoEstimadoMinutos(15).preparacion("Esto se prepara asi").build();
@@ -210,6 +221,9 @@ public class BuenSaborBackApplication {
 			pizzaNapolitana.getArticuloManufacturadoDetalles().add(detalleTomatePizzaNapolatina);
 			articuloManufacturadoRepository.save(pizzaMuzarella);
 			articuloManufacturadoRepository.save(pizzaNapolitana);
+
+
+
 
 			// Establecer relaciones de las categorias
 			categoriaInsumos.getArticulos().add(harina);
@@ -306,13 +320,11 @@ public class BuenSaborBackApplication {
 			cliente1.getPedidos().add(pedido);
 			clienteRepository.save(cliente1);
 
+
+
+
 		};
 	}
+
 }
-
-
-
-
-
-
 

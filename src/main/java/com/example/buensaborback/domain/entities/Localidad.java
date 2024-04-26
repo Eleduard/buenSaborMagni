@@ -1,9 +1,6 @@
 package com.example.buensaborback.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
@@ -21,6 +18,11 @@ public class Localidad extends Base{
     private String nombre;
 
     @ManyToOne
+    @JoinColumn(name = "provincia_id", nullable = false)
     private Provincia provincia;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "localidad")
+    @Builder.Default
+    private Set<Domicilio> domicilios = new HashSet<>();
 
 }
