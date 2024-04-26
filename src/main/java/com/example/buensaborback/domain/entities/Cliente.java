@@ -41,7 +41,7 @@ public class Cliente extends Base{
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
     private Set<Domicilio> domicilios = new HashSet<>();
-    
+
 
 
 }

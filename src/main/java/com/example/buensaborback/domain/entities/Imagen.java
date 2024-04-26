@@ -24,5 +24,5 @@ public class Imagen extends Base{
     @ManyToOne
     @JoinColumn(name = "promocion_id", nullable = true)
     private Promocion promocion;
-    
+
 }
