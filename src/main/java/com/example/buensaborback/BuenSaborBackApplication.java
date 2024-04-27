@@ -173,7 +173,7 @@ public class BuenSaborBackApplication {
 					.fechaHasta(LocalDate.of(2024,12,30))
 					.horaDesde(LocalTime.of(0,0))
 					.horaHasta(LocalTime.of(23,59))
-					.descripcionDescuento("Pizza completa + Happy Hour")
+					.descripcionDescuento("1 Coca + 2 Pizza Muzzarella")
 					.precioPromocional(200d)
 					.tipoPromocion(TipoPromocion.Promocion)
 					.build();
@@ -182,16 +182,13 @@ public class BuenSaborBackApplication {
 					.fechaHasta(LocalDate.of(2024,12,30))
 					.horaDesde(LocalTime.of(0,0))
 					.horaHasta(LocalTime.of(23,59))
-					.descripcionDescuento("2 Lomito + 1 Cerveza")
+					.descripcionDescuento("2 Cocas + 1 Pizza Napo")
 					.precioPromocional(400d)
 					.tipoPromocion(TipoPromocion.Promocion)
 					.build();
 			promocionRepository.save(promocion1);
 			promocionRepository.save(promocion2);
 
-			// Crear DetallePromocion:
-			DetallePromocion detallePromocion1 = DetallePromocion.builder().articulo(cocaCola).cantidadArticulos(2).promocion(promocion1).build();
-			detallePromocionRepository.save(detallePromocion1);
 
 			// Crear fotos para cada insumo
 			Imagen imagenCoca = Imagen.builder().url("https://m.media-amazon.com/images/I/51v8nyxSOYL._SL1500_.jpg").articulo(cocaCola).promocion(promocion1).build();
@@ -265,6 +262,20 @@ public class BuenSaborBackApplication {
 					.build();
 
 			promocionRepository.save(promocionDiaEnamorados);
+
+			// Crear DetallePromocion:
+			DetallePromocion detallePromocion1 = DetallePromocion.builder().cantidad(1).promocion(promocion1).articulo(cocaCola).build();
+			DetallePromocion detallePromocion2 = DetallePromocion.builder().cantidad(2).promocion(promocion1).articulo(pizzaMuzarella).build();
+			DetallePromocion detallePromocion3 = DetallePromocion.builder().cantidad(2).promocion(promocion2).articulo(cocaCola).build();
+			DetallePromocion detallePromocion4 = DetallePromocion.builder().cantidad(1).promocion(promocion2).articulo(pizzaNapolitana).build();
+			DetallePromocion detallePromocion5 = DetallePromocion.builder().cantidad(2).promocion(promocionDiaEnamorados).articulo(cocaCola).build();
+			DetallePromocion detallePromocion6 = DetallePromocion.builder().cantidad(2).promocion(promocionDiaEnamorados).articulo(pizzaNapolitana).build();
+			detallePromocionRepository.save(detallePromocion1);
+			detallePromocionRepository.save(detallePromocion2);
+			detallePromocionRepository.save(detallePromocion3);
+			detallePromocionRepository.save(detallePromocion4);
+			detallePromocionRepository.save(detallePromocion5);
+			detallePromocionRepository.save(detallePromocion6);
 
 			Imagen imagenPromocionEnamorados = Imagen.builder().url("https://www.bbva.com/wp-content/uploads/2021/02/san-valentin-14-febrero-corazon-amor-bbva-recurso-1920x1280-min.jpg").articulo(pizzaNapolitana).promocion(promocionDiaEnamorados).build();
 			imagenRepository.save(imagenPromocionEnamorados);

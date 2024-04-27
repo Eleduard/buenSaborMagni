@@ -14,14 +14,14 @@ import lombok.*;
 @Builder
 public class DetallePromocion extends Base {
 
-    private Integer cantidadArticulos;
+    private Integer cantidad;
 
-    //@Id
+
     @ManyToOne
     @JoinColumn(name = "articulo_id", nullable = false)
     private Articulo articulo;
 
-    //@Id
+
     @ManyToOne
     @JoinColumn(name = "promocion_id", nullable = false)
     private Promocion promocion;
