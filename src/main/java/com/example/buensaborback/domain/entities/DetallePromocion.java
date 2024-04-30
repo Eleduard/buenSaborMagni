@@ -18,12 +18,10 @@ public class DetallePromocion extends Base {
 
 
     @ManyToOne
-    @JoinColumn(name = "articulo_id", nullable = false)
     private Articulo articulo;
 
 
     @ManyToOne
-    @JoinColumn(name = "promocion_id", nullable = false)
     private Promocion promocion;
 
 

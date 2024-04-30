@@ -30,7 +30,6 @@ public class Pedido extends Base{
     private LocalDate fechaPedido;
 
     @ManyToOne
-    @JoinColumn(name = "sucursal_id", nullable = false)
     private Sucursal sucursal;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "pedido")
@@ -38,11 +37,9 @@ public class Pedido extends Base{
     private Set<DetallePedido> detallePedidos = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "domicilio_id", nullable = false)
     private Domicilio domicilio;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
 }

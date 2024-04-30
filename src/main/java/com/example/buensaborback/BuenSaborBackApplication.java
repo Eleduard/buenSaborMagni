@@ -310,14 +310,14 @@ public class BuenSaborBackApplication {
 			Usuario usuario1 = Usuario.builder().username("pepe-honguito75").auth0Id("iVBORw0KGgoAAAANSUhEUgAAAK0AAACUCAMAAADWBFkUAAABEVBMVEX").build();
 			usuarioRepository.save(usuario1);
 
-			Imagen imagenUsuario = Imagen.builder().url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsa2xSPPay4GD7E3cthBMCcvPMADEjFufUWQ&s").build();
-			imagenRepository.save(imagenUsuario);
-
 			// Agregar cliente
-			Cliente cliente1 = Cliente.builder().nombre("Carlos").apellido("Rodriguez").telefono("2615666666").fechaNacimiento(LocalDate.of(1920, 5, 13)).usuario(usuario1).email("c.rodriguez@gmail.com").imagen(imagenUsuario).build();
+			Cliente cliente1 = Cliente.builder().nombre("Carlos").apellido("Rodriguez").telefono("2615666666").fechaNacimiento(LocalDate.of(1920, 5, 13)).usuario(usuario1).email("c.rodriguez@gmail.com").build();
 			cliente1.getDomicilios().add(domicilioCliente1);
 			cliente1.getDomicilios().add(domicilioCliente2);
 			clienteRepository.save(cliente1);
+
+			Imagen imagenUsuario = Imagen.builder().url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsa2xSPPay4GD7E3cthBMCcvPMADEjFufUWQ&s").cliente(cliente1).build();
+			imagenRepository.save(imagenUsuario);
 
 			// Agregar pedido
 			Pedido pedido = Pedido.builder()

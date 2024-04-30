@@ -47,6 +47,5 @@ public class Sucursal extends Base{
     private Set<Pedido> pedidos = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = false)
     private Empresa empresa;
 }

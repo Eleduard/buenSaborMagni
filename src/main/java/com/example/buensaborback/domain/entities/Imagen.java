@@ -18,14 +18,12 @@ public class Imagen extends Base{
     private String url;
 
     @ManyToOne
-    @JoinColumn(name= "articulo_id", nullable = true)
     private Articulo articulo;
 
     @ManyToOne
-    @JoinColumn(name = "promocion_id", nullable = true)
     private Promocion promocion;
 
-    /*@OneToOne
-    private Cliente cliente;*/
+    @ManyToOne
+    private Cliente cliente;
 
 }

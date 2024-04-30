@@ -25,8 +25,8 @@ public class Cliente extends Base{
     @OneToOne
     private Usuario usuario;
 
-    @OneToOne
-    private Imagen imagen;
+    /*@OneToOne
+    private Imagen imagen;*/
 
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "cliente")
